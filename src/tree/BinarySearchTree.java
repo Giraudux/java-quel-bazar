@@ -6,7 +6,12 @@ import java.util.Iterator;
 /**
  * @author Alexis Giraudet
  */
-public class BinarySearchTree<T> implements Collection<T> {
+public class BinarySearchTree<T> implements Collection<Comparable<T>> {
+    protected Comparable<T> _key;
+    protected BinarySearchTree<T> _parent;
+    protected BinarySearchTree<T> _left;
+    protected BinarySearchTree<T> _right;
+
     @Override
     public int size() {
         return 0;
@@ -23,7 +28,7 @@ public class BinarySearchTree<T> implements Collection<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<Comparable<T>> iterator() {
         return null;
     }
 
@@ -33,12 +38,12 @@ public class BinarySearchTree<T> implements Collection<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
+    public <T> T[] toArray(T[] a) {
         return null;
     }
 
     @Override
-    public boolean add(T t) {
+    public boolean add(Comparable<T> tComparable) {
         return false;
     }
 
@@ -53,7 +58,7 @@ public class BinarySearchTree<T> implements Collection<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends Comparable<T>> c) {
         return false;
     }
 

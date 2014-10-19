@@ -9,8 +9,8 @@ import java.util.NoSuchElementException;
 public class BinarySearchTreeIterator<T extends Comparable<T>> implements Iterator<T> {
     private BinarySearchNode<T> __current;
 
-    public BinarySearchTreeIterator(BinarySearchNode<T> root) {
-        __current = root;
+    public BinarySearchTreeIterator(BinarySearchNode<T> node) {
+        __current = node;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class BinarySearchTreeIterator<T extends Comparable<T>> implements Iterat
 
     @Override
     public T next() {
-        if(__current == null) {
+        if (__current == null) {
             throw new NoSuchElementException();
         }
         T x = __current._key;

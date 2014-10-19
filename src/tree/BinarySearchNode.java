@@ -85,13 +85,13 @@ class BinarySearchNode<T extends Comparable<T>> {
     }
 
     protected static <T extends Comparable<T>> void _remove(BinarySearchTree<T> t, BinarySearchNode<T> z) {
-        if(z._left == null) {
+        if (z._left == null) {
             _transplant(t, z, z._right);
-        } else if(z._right == null) {
+        } else if (z._right == null) {
             _transplant(t, z, z._left);
         } else {
             BinarySearchNode<T> y = _minimum(z._right);
-            if(y._parent != z) {
+            if (y._parent != z) {
                 _transplant(t, y, y._right);
                 y._right = z._right;
                 y._right._parent = y;
@@ -100,5 +100,12 @@ class BinarySearchNode<T extends Comparable<T>> {
             y._left = z._left;
             y._left._parent = y;
         }
+    }
+
+    protected static <T extends Comparable<T>> int _size(BinarySearchNode<T> x) {
+        if (x == null) {
+            return 0;
+        }
+        return 1 + _size(x._left) + _size(x._right);/**/
     }
 }

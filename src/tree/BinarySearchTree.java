@@ -15,7 +15,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public int size() {
-        return 0;
+        return BinarySearchNode._size(_root);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public boolean contains(Object o) {
-        return BinarySearchNode._search(_root, (T) o) != null;
+        return BinarySearchNode._search(BinarySearchNode._minimum(_root), (T) o) != null;
     }
 
     @Override
@@ -57,16 +57,27 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object x : c) {
+            if (!contains(x)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
+        for (Object x : c) {
+            add((T) x);
+        }
         return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        for (Object x : c) {
+            remove(x);
+        }
         return false;
     }
 

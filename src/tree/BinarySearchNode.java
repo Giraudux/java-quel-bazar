@@ -106,6 +106,6 @@ class BinarySearchNode<T extends Comparable<T>> {
         if (x == null) {
             return 0;
         }
-        return 1 + _size(x._left) + _size(x._right);/**/
+        return 1 + _size(x._left) + _size(x._right);
     }
 }

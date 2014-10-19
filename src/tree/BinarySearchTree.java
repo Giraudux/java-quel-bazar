@@ -9,6 +9,10 @@ import java.util.Iterator;
 public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> {
     protected BinarySearchNode<T> _root;
 
+    public BinarySearchTree() {
+        _root = null;
+    }
+
     @Override
     public int size() {
         return 0;
@@ -16,12 +20,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return _root == null;
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return BinarySearchNode._search(_root, (T) o) != null;
     }
 
     @Override
@@ -41,11 +45,13 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public boolean add(T t) {
+        BinarySearchNode._add(this, new BinarySearchNode<T>(t));
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
+        BinarySearchNode._remove(this, new BinarySearchNode<T>((T) o));
         return false;
     }
 
@@ -71,6 +77,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public void clear() {
-
+        _root = null;
     }
 }

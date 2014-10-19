@@ -4,10 +4,14 @@ package tree;
  * @author Alexis Giraudet
  */
 class BinarySearchNode<T extends Comparable<T>> {
-    protected T _key;
+    protected final T _key;
     protected BinarySearchNode<T> _parent;
     protected BinarySearchNode<T> _left;
     protected BinarySearchNode<T> _right;
+
+    protected BinarySearchNode(T k) {
+        _key = k;
+    }
 
     protected static <T extends Comparable<T>> BinarySearchNode<T> _search(BinarySearchNode<T> x, T k) {
         while ((x != null) && (!k.equals(x._key))) {
@@ -77,6 +81,24 @@ class BinarySearchNode<T extends Comparable<T>> {
         }
         if (v != null) {
             v._parent = u._parent;
+        }
+    }
+
+    protected static <T extends Comparable<T>> void _remove(BinarySearchTree<T> t, BinarySearchNode<T> z) {
+        if(z._left == null) {
+            _transplant(t, z, z._right);
+        } else if(z._right == null) {
+            _transplant(t, z, z._left);
+        } else {
+            BinarySearchNode<T> y = _minimum(z._right);
+            if(y._parent != z) {
+                _transplant(t, y, y._right);
+                y._right = z._right;
+                y._right._parent = y;
+            }
+            _transplant(t, z, y);
+            y._left = z._left;
+            y._left._parent = y;
         }
     }
 }

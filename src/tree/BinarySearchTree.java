@@ -30,7 +30,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new BinarySearchTreeIterator<T>(_root);
     }
 
     @Override

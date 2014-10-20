@@ -7,15 +7,18 @@ import java.util.Iterator;
  * @author Alexis Giraudet
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
+    public final RedBlackNode<K> nil;
     protected RedBlackNode<K> _root;
 
     public RedBlackTree() {
-        _root = null;
+        nil = new RedBlackNode<K>(null);
+        nil._colour = RedBlackNode.BLACK;
+        _root = nil;
     }
 
     @Override
     public int size() {
-        return RedBlackNode._size(_root);
+        return RedBlackNode._size(this, _root);
     }
 
     @Override
@@ -25,12 +28,12 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean contains(Object o) {
-        return RedBlackNode._search(_root, (K) o) != null;
+        return RedBlackNode._search(this, _root, (K) o) != null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return new RedBlackTreeIterator<K>(RedBlackNode._minimum(_root));
+        return new RedBlackTreeIterator<K>(this, RedBlackNode._minimum(this, _root));
     }
 
     @Override

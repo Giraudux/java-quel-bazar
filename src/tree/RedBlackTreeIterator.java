@@ -7,24 +7,26 @@ import java.util.NoSuchElementException;
  * @author Alexis Giraudet
  */
 public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K> {
-    private RedBlackNode<K> __current;
+    private RedBlackTree<K> __currentTree;
+    private RedBlackNode<K> __currentNode;
 
-    public RedBlackTreeIterator(RedBlackNode<K> x) {
-        __current = x;
+    public RedBlackTreeIterator(RedBlackTree<K> T, RedBlackNode<K> x) {
+        __currentTree = T;
+        __currentNode = x;
     }
 
     @Override
     public boolean hasNext() {
-        return __current != null;
+        return __currentNode != __currentTree.nil;
     }
 
     @Override
     public K next() {
-        if (__current == null) {
+        if (__currentNode == __currentTree.nil) {
             throw new NoSuchElementException();
         }
-        K k = __current._key;
-        __current = RedBlackNode._successor(__current);
+        K k = __currentNode._key;
+        __currentNode = RedBlackNode._successor(__currentTree, __currentNode);
         return k;
     }
 }

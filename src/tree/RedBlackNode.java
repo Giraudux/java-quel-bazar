@@ -11,14 +11,10 @@ class RedBlackNode<K extends Comparable<K>> {
 
     protected RedBlackNode(K k) {
         _key = k;
-        _parent = null;
-        _left = null;
-        _right = null;
-        _colour = RED;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackNode<K> x, K k) {
-        while ((x != null) && (!k.equals(x._key))) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackTree<K> T, RedBlackNode<K> x, K k) {
+        while ((x != T.nil) && (!k.equals(x._key))) {
             if (k.compareTo(x._key) < 0) {
                 x = x._left;
             } else {
@@ -28,47 +24,47 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackNode<K> x) {
-        while (x._left != null) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackTree<K> T, RedBlackNode<K> x) {
+        while (x._left != T.nil) {
             x = x._left;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackNode<K> x) {
-        while (x._right != null) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackTree<K> T, RedBlackNode<K> x) {
+        while (x._right != T.nil) {
             x = x._right;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackNode<K> x) {
-        if (x._right != null) {
-            return _minimum(x._right);
+    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackTree<K> T, RedBlackNode<K> x) {
+        if (x._right != T.nil) {
+            return _minimum(T, x._right);
         }
         RedBlackNode<K> y = x._parent;
-        while ((y != null) && (x == y._right)) {
+        while ((y != T.nil) && (x == y._right)) {
             x = y;
             y = y._parent;
         }
         return y;
     }
 
-    protected static <K extends Comparable<K>> int _size(RedBlackNode<K> x) {
-        if (x == null) {
+    protected static <K extends Comparable<K>> int _size(RedBlackTree<K> T, RedBlackNode<K> x) {
+        if (x == T.nil) {
             return 0;
         }
-        return 1 + _size(x._left) + _size(x._right);
+        return 1 + _size(T, x._left) + _size(T, x._right);
     }
 
     protected static <K extends Comparable<K>> void _leftRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> y = x._right;
         x._right = y._left;
-        if(y._left != null) {
+        if(y._left != T.nil) {
             y._left._parent = x;
         }
         y._parent = x._parent;
-        if(x._parent == null) {
+        if(x._parent == T.nil) {
             T._root = y;
         } else if(x == x._parent._left) {
             x._parent._left = y;
@@ -82,11 +78,11 @@ class RedBlackNode<K extends Comparable<K>> {
     protected static <K extends Comparable<K>> void _rightRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> y = x._left;
         x._left = y._right;
-        if(y._right != null) {
+        if(y._right != T.nil) {
             y._right._parent = x;
         }
         y._parent = x._parent;
-        if(x._parent == null) {
+        if(x._parent == T.nil) {
             T._root = y;
         } else if(x == x._parent._right) {
             x._parent._right = y;
@@ -137,9 +133,9 @@ class RedBlackNode<K extends Comparable<K>> {
     }
 
     protected static <K extends Comparable<K>> void _add(RedBlackTree<K> T, RedBlackNode<K> z) {
-        RedBlackNode<K> y = null;
+        RedBlackNode<K> y = T.nil;
         RedBlackNode<K> x = T._root;
-        while (x != null) {
+        while (x != T.nil) {
             y = x;
             if(z._key.compareTo(x._key) < 0) {
                 x = x._left;
@@ -148,7 +144,7 @@ class RedBlackNode<K extends Comparable<K>> {
             }
         }
         z._parent = y;
-        if(y == null) {
+        if(y == T.nil) {
             T._root = z;
         } else if(z._key.compareTo(y._key) < 0) {
             y._left = z;

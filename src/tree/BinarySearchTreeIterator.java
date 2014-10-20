@@ -6,10 +6,10 @@ import java.util.NoSuchElementException;
 /**
  * @author Alexis Giraudet
  */
-public class BinarySearchTreeIterator<T extends Comparable<T>> implements Iterator<T> {
-    private BinarySearchNode<T> __current;
+public class BinarySearchTreeIterator<K extends Comparable<K>> implements Iterator<K> {
+    private BinarySearchNode<K> __current;
 
-    public BinarySearchTreeIterator(BinarySearchNode<T> node) {
+    public BinarySearchTreeIterator(BinarySearchNode<K> node) {
         __current = node;
     }
 
@@ -19,12 +19,17 @@ public class BinarySearchTreeIterator<T extends Comparable<T>> implements Iterat
     }
 
     @Override
-    public T next() {
+    public K next() {
         if (__current == null) {
             throw new NoSuchElementException();
         }
-        T x = __current._key;
+        K k = __current._key;
         __current = BinarySearchNode._successor(__current);
-        return x;
+        return k;
+    }
+
+    @Override
+    public void remove() {
+        ;
     }
 }

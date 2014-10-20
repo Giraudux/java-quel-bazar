@@ -3,17 +3,17 @@ package tree;
 /**
  * @author Alexis Giraudet
  */
-class BinarySearchNode<T extends Comparable<T>> {
-    protected final T _key;
-    protected BinarySearchNode<T> _parent;
-    protected BinarySearchNode<T> _left;
-    protected BinarySearchNode<T> _right;
+class BinarySearchNode<K extends Comparable<K>> {
+    protected final K _key;
+    protected BinarySearchNode<K> _parent;
+    protected BinarySearchNode<K> _left;
+    protected BinarySearchNode<K> _right;
 
-    protected BinarySearchNode(T k) {
+    protected BinarySearchNode(K k) {
         _key = k;
     }
 
-    protected static <T extends Comparable<T>> BinarySearchNode<T> _search(BinarySearchNode<T> x, T k) {
+    protected static <K extends Comparable<K>> BinarySearchNode<K> _search(BinarySearchNode<K> x, K k) {
         while ((x != null) && (!k.equals(x._key))) {
             if (k.compareTo(x._key) < 0) {
                 x = x._left;
@@ -24,25 +24,25 @@ class BinarySearchNode<T extends Comparable<T>> {
         return x;
     }
 
-    protected static <T extends Comparable<T>> BinarySearchNode<T> _minimum(BinarySearchNode<T> x) {
+    protected static <K extends Comparable<K>> BinarySearchNode<K> _minimum(BinarySearchNode<K> x) {
         while (x._left != null) {
             x = x._left;
         }
         return x;
     }
 
-    protected static <T extends Comparable<T>> BinarySearchNode<T> _maximum(BinarySearchNode<T> x) {
+    protected static <K extends Comparable<K>> BinarySearchNode<K> _maximum(BinarySearchNode<K> x) {
         while (x._right != null) {
             x = x._right;
         }
         return x;
     }
 
-    protected static <T extends Comparable<T>> BinarySearchNode<T> _successor(BinarySearchNode<T> x) {
+    protected static <K extends Comparable<K>> BinarySearchNode<K> _successor(BinarySearchNode<K> x) {
         if (x._right != null) {
             return _minimum(x._right);
         }
-        BinarySearchNode<T> y = x._parent;
+        BinarySearchNode<K> y = x._parent;
         while ((y != null) && (x == y._right)) {
             x = y;
             y = y._parent;
@@ -50,9 +50,9 @@ class BinarySearchNode<T extends Comparable<T>> {
         return y;
     }
 
-    protected static <T extends Comparable<T>> void _add(BinarySearchTree<T> t, BinarySearchNode<T> z) {
-        BinarySearchNode<T> y = null;
-        BinarySearchNode<T> x = t._root;
+    protected static <K extends Comparable<K>> void _add(BinarySearchTree<K> T, BinarySearchNode<K> z) {
+        BinarySearchNode<K> y = null;
+        BinarySearchNode<K> x = T._root;
         while (x != null) {
             y = x;
             if (z._key.compareTo(x._key) < 0) {
@@ -63,7 +63,7 @@ class BinarySearchNode<T extends Comparable<T>> {
         }
         z._parent = y;
         if (y == null) {
-            t._root = z;
+            T._root = z;
         } else if (z._key.compareTo(y._key) < 0) {
             y._left = z;
         } else {
@@ -71,9 +71,9 @@ class BinarySearchNode<T extends Comparable<T>> {
         }
     }
 
-    protected static <T extends Comparable<T>> void _transplant(BinarySearchTree<T> t, BinarySearchNode<T> u, BinarySearchNode<T> v) {
+    protected static <K extends Comparable<K>> void _transplant(BinarySearchTree<K> T, BinarySearchNode<K> u, BinarySearchNode<K> v) {
         if (u._parent == null) {
-            t._root = v;
+            T._root = v;
         } else if (u == u._parent._left) {
             u._parent._left = v;
         } else {
@@ -84,25 +84,25 @@ class BinarySearchNode<T extends Comparable<T>> {
         }
     }
 
-    protected static <T extends Comparable<T>> void _remove(BinarySearchTree<T> t, BinarySearchNode<T> z) {
+    protected static <K extends Comparable<K>> void _remove(BinarySearchTree<K> T, BinarySearchNode<K> z) {
         if (z._left == null) {
-            _transplant(t, z, z._right);
+            _transplant(T, z, z._right);
         } else if (z._right == null) {
-            _transplant(t, z, z._left);
+            _transplant(T, z, z._left);
         } else {
-            BinarySearchNode<T> y = _minimum(z._right);
+            BinarySearchNode<K> y = _minimum(z._right);
             if (y._parent != z) {
-                _transplant(t, y, y._right);
+                _transplant(T, y, y._right);
                 y._right = z._right;
                 y._right._parent = y;
             }
-            _transplant(t, z, y);
+            _transplant(T, z, y);
             y._left = z._left;
             y._left._parent = y;
         }
     }
 
-    protected static <T extends Comparable<T>> int _size(BinarySearchNode<T> x) {
+    protected static <K extends Comparable<K>> int _size(BinarySearchNode<K> x) {
         if (x == null) {
             return 0;
         }

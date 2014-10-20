@@ -6,8 +6,8 @@ import java.util.Iterator;
 /**
  * @author Alexis Giraudet
  */
-public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> {
-    protected BinarySearchNode<T> _root;
+public class BinarySearchTree<K extends Comparable<K>> implements Collection<K> {
+    protected BinarySearchNode<K> _root;
 
     public BinarySearchTree() {
         _root = null;
@@ -25,12 +25,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
 
     @Override
     public boolean contains(Object o) {
-        return BinarySearchNode._search(BinarySearchNode._minimum(_root), (T) o) != null;
+        return BinarySearchNode._search(BinarySearchNode._minimum(_root), (K) o) != null;
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new BinarySearchTreeIterator<T>(_root);
+    public Iterator<K> iterator() {
+        return new BinarySearchTreeIterator<K>(_root);
     }
 
     @Override
@@ -39,19 +39,19 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
+    public <K1> K1[] toArray(K1[] a) {
         return null;
     }
 
     @Override
-    public boolean add(T t) {
-        BinarySearchNode._add(this, new BinarySearchNode<T>(t));
+    public boolean add(K k) {
+        BinarySearchNode._add(this, new BinarySearchNode<K>(k));
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        BinarySearchNode._remove(this, new BinarySearchNode<T>((T) o));
+        BinarySearchNode._remove(this, new BinarySearchNode<K>((K) o));
         return false;
     }
 
@@ -66,9 +66,9 @@ public class BinarySearchTree<T extends Comparable<T>> implements Collection<T> 
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends K> c) {
         for (Object x : c) {
-            add((T) x);
+            add((K) x);
         }
         return false;
     }

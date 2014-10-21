@@ -12,7 +12,6 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     public RedBlackTree() {
         nil = new RedBlackNode<K>(null);
-        nil._colour = RedBlackNode.BLACK;
         _root = nil;
     }
 

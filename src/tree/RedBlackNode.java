@@ -11,6 +11,10 @@ class RedBlackNode<K extends Comparable<K>> {
 
     protected RedBlackNode(K k) {
         _key = k;
+        _parent = this;
+        _left = this;
+        _right = this;
+        _colour = BLACK;
     }
 
     protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackTree<K> T, RedBlackNode<K> x, K k) {

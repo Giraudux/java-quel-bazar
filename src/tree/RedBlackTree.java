@@ -54,6 +54,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean remove(Object o) {
+        RedBlackNode._remove(this, RedBlackNode._search(this, _root, (K) o));
         return false;
     }
 
@@ -77,6 +78,9 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        for (Object x : c) {
+            remove((K) x);
+        }
         return false;
     }
 

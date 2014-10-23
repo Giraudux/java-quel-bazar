@@ -7,17 +7,19 @@ import java.util.Iterator;
  * @author Alexis Giraudet
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
-    public final RedBlackNode<K> nil;
     protected RedBlackNode<K> _root;
 
     public RedBlackTree() {
-        nil = new RedBlackNode<K>(null);
-        _root = nil;
+        _root = new RedBlackNode<K>();
+    }
+
+    public int height() {
+        return RedBlackNode._height(_root);
     }
 
     @Override
     public int size() {
-        return RedBlackNode._size(this, _root);
+        return RedBlackNode._size(_root);
     }
 
     @Override
@@ -27,12 +29,12 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean contains(Object o) {
-        return RedBlackNode._search(this, _root, (K) o) != null;
+        return RedBlackNode._search(_root, (K) o) != null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return new RedBlackTreeIterator<K>(this, RedBlackNode._minimum(this, _root));
+        return new RedBlackTreeIterator<K>(RedBlackNode._minimum(_root));
     }
 
     @Override
@@ -47,13 +49,17 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean add(K k) {
-        RedBlackNode._add(this, new RedBlackNode<K>(k));
+        if(_root == null) {
+            _root = new RedBlackNode<K>(k);
+        } else {
+            RedBlackNode._add(this, new RedBlackNode<K>(k));
+        }
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        RedBlackNode._remove(this, RedBlackNode._search(this, _root, (K) o));
+        RedBlackNode._remove(this, RedBlackNode._search(_root, (K) o));
         return false;
     }
 
@@ -91,5 +97,16 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     @Override
     public void clear() {
         _root = null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for(K k : this) {
+            s.append(' ').append(k.toString()).append(',');
+        }
+        s.setCharAt(0, '[');
+        s.setCharAt(s.length()-1, ']');
+        return s.toString();
     }
 }

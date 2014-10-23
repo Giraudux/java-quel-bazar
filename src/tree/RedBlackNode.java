@@ -4,21 +4,39 @@ package tree;
  * @author Alexis Giraudet
  */
 class RedBlackNode<K extends Comparable<K>> {
-    protected static final boolean RED = false, BLACK = true;
+    protected static enum Colour {RED, BLACK}
     protected final K _key;
     protected RedBlackNode<K> _parent, _left, _right;
-    protected boolean _colour;
+    protected Colour _colour;
+
+    protected RedBlackNode() {
+        _key = null;
+        _parent = null;
+        _left = null;
+        _right = null;
+        _colour = Colour.BLACK;
+    }
 
     protected RedBlackNode(K k) {
         _key = k;
-        _parent = this;
-        _left = this;
-        _right = this;
-        _colour = BLACK;
+        _parent = new RedBlackNode<K>();
+        _left = new RedBlackNode<K>();
+        _left._parent = this;
+        _right = new RedBlackNode<K>();
+        _right._parent = this;
+        _colour = Colour.RED;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackTree<K> T, RedBlackNode<K> x, K k) {
-        while ((x != T.nil) && (!k.equals(x._key))) {
+    protected static <K extends Comparable<K>> int _height(RedBlackNode<K> x) {
+        if(x._key == null) {
+            return 0;
+        }
+        return Math.max(_height(x._left), _height(x._right))+1;
+    }
+
+
+    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackNode<K> x, K k) {
+        while ((x._key != null) && (!k.equals(x._key))) {
             if (k.compareTo(x._key) < 0) {
                 x = x._left;
             } else {
@@ -28,119 +46,123 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackTree<K> T, RedBlackNode<K> x) {
-        while (x._left != T.nil) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackNode<K> x) {
+        while (x._left._key != null) {
             x = x._left;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackTree<K> T, RedBlackNode<K> x) {
-        while (x._right != T.nil) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackNode<K> x) {
+        while (x._right._key != null) {
             x = x._right;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackTree<K> T, RedBlackNode<K> x) {
-        if (x._right != T.nil) {
-            return _minimum(T, x._right);
+    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackNode<K> x) {
+        if (x._right._key != null) {
+            return _minimum(x._right);
         }
         RedBlackNode<K> y = x._parent;
-        while ((y != T.nil) && (x == y._right)) {
-            x = y;
+        while ((y._key != null) && (x == y._right)) {
+            x = (y);
             y = y._parent;
         }
         return y;
     }
 
-    protected static <K extends Comparable<K>> int _size(RedBlackTree<K> T, RedBlackNode<K> x) {
-        if (x == T.nil) {
+    protected static <K extends Comparable<K>> int _size(RedBlackNode<K> x) {
+        if (x._key == null) {
             return 0;
         }
-        return 1 + _size(T, x._left) + _size(T, x._right);
+        return 1 + _size(x._left) + _size(x._right);
     }
 
     protected static <K extends Comparable<K>> void _leftRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
-        RedBlackNode<K> y = x._right;
-        x._right = y._left;
-        if (y._left != T.nil) {
-            y._left._parent = x;
+        if(x._right._key != null) {
+            RedBlackNode<K> y = (x._right);
+            x._right = y._left;
+            if (y._left._key != null) {
+                y._left._parent = x;
+            }
+            y._parent = x._parent;
+            if (x._parent._key == null) {
+                T._root = y;
+            } else if (x == x._parent._left) {
+                (x._parent._left) = y;
+            } else {
+                (x._parent._right) = y;
+            }
+            y._left = x;
+            x._parent = y;
         }
-        y._parent = x._parent;
-        if (x._parent == T.nil) {
-            T._root = y;
-        } else if (x == x._parent._left) {
-            x._parent._left = y;
-        } else {
-            x._parent._right = y;
-        }
-        y._left = x;
-        x._parent = y;
     }
 
     protected static <K extends Comparable<K>> void _rightRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
-        RedBlackNode<K> y = x._left;
-        x._left = y._right;
-        if (y._right != T.nil) {
-            y._right._parent = x;
+        if(x._left._key != null) {
+            RedBlackNode<K> y = (x._left);
+            x._left = y._right;
+            if (y._right._key != null) {
+                y._right._parent = x;
+            }
+            y._parent = x._parent;
+            if (x._parent._key == null) {
+                T._root = y;
+            } else if (x == x._parent._right) {
+                (x._parent._right) = y;
+            } else {
+                (x._parent._left) = y;
+            }
+            y._right = x;
+            x._parent = y;
         }
-        y._parent = x._parent;
-        if (x._parent == T.nil) {
-            T._root = y;
-        } else if (x == x._parent._right) {
-            x._parent._right = y;
-        } else {
-            x._parent._left = y;
-        }
-        y._right = x;
-        x._parent = y;
     }
 
     protected static <K extends Comparable<K>> void _addCorrection(RedBlackTree<K> T, RedBlackNode<K> z) {
-        while (z._parent._colour == RED) {
+        while (z._parent._colour == Colour.RED) {
             if (z._parent == z._parent._parent._left) {
-                RedBlackNode<K> y = z._parent._parent._right;
-                if (y._colour == RED) {
-                    z._parent._colour = BLACK;
-                    y._colour = BLACK;
-                    z._parent._parent._colour = RED;
+                RedBlackNode<K> y = (z._parent._parent._right);
+                if (y._colour == Colour.RED) {
+                    z._parent._colour = Colour.BLACK;
+                    y._colour = Colour.BLACK;
+                    z._parent._parent._colour = Colour.RED;
                     z = z._parent._parent;
                 } else {
                     if (z == z._parent._right) {
                         z = z._parent;
                         _leftRotation(T, z);
                     }
-                    z._parent._colour = BLACK;
-                    z._parent._parent._colour = RED;
+                    z._parent._colour = Colour.BLACK;
+                    z._parent._parent._colour = Colour.RED;
                     _rightRotation(T, z);
                 }
             } else {
-                RedBlackNode<K> y = z._parent._parent._left;
-                if (y._colour == RED) {
-                    z._parent._colour = BLACK;
-                    y._colour = BLACK;
-                    z._parent._parent._colour = RED;
+                RedBlackNode<K> y = (z._parent._parent._left);
+                if (y._colour == Colour.RED) {
+                    z._parent._colour = Colour.BLACK;
+                    y._colour = Colour.BLACK;
+                    z._parent._parent._colour = Colour.RED;
                     z = z._parent._parent;
                 } else {
                     if (z == z._parent._left) {
                         z = z._parent;
                         _rightRotation(T, z);
                     }
-                    z._parent._colour = BLACK;
-                    z._parent._parent._colour = RED;
+                    z._parent._colour = Colour.BLACK;
+                    z._parent._parent._colour = Colour.RED;
                     _leftRotation(T, z);
                 }
             }
         }
-        T._root._colour = BLACK;
+        T._root._colour = Colour.BLACK;
     }
 
     protected static <K extends Comparable<K>> void _add(RedBlackTree<K> T, RedBlackNode<K> z) {
-        RedBlackNode<K> y = T.nil;
+        RedBlackNode<K> y = new RedBlackNode<K>();
         RedBlackNode<K> x = T._root;
-        while (x != T.nil) {
-            y = x;
+        while (x._key != null) {
+            y = (x);
             if (z._key.compareTo(x._key) < 0) {
                 x = x._left;
             } else {
@@ -148,21 +170,21 @@ class RedBlackNode<K extends Comparable<K>> {
             }
         }
         z._parent = y;
-        if (y == T.nil) {
+        if (y._key == null) {
             T._root = z;
         } else if (z._key.compareTo(y._key) < 0) {
             y._left = z;
         } else {
             y._right = z;
         }
-        z._left = T.nil;
+        /*z._left = T.nil;
         z._right = T.nil;
-        z._colour = RED;
+        z._colour = RED;*/
         _addCorrection(T, z);
     }
 
     protected static <K extends Comparable<K>> void _transplant(RedBlackTree<K> T, RedBlackNode<K> u, RedBlackNode<K> v) {
-        if (u._parent == T.nil) {
+        if (u._parent._key == null) {
             T._root = v;
         } else if (u == u._parent._left) {
             u._parent._left = v;
@@ -173,72 +195,72 @@ class RedBlackNode<K extends Comparable<K>> {
     }
 
     protected static <K extends Comparable<K>> void _removeCorrection(RedBlackTree<K> T, RedBlackNode<K> x) {
-        while ((x != T._root) && (x._colour == BLACK)) {
+        while ((x != T._root) && (x._colour == Colour.BLACK)) {
             if (x == x._parent._left) {
                 RedBlackNode<K> w = x._parent._right;
-                if (w._colour == RED) {
-                    w._colour = BLACK;
-                    x._parent._colour = RED;
+                if (w._colour == Colour.RED) {
+                    w._colour = Colour.BLACK;
+                    x._parent._colour = Colour.RED;
                     _leftRotation(T, x._parent);
                     w = x._parent._right;
                 }
-                if ((w._left._colour == BLACK) && (w._right._colour == BLACK)) {
-                    w._colour = RED;
+                if ((w._left._colour == Colour.BLACK) && (w._right._colour == Colour.BLACK)) {
+                    w._colour = Colour.RED;
                     x = x._parent;
                 } else {
-                    if (w._right._colour == BLACK) {
-                        w._left._colour = BLACK;
-                        w._colour = RED;
+                    if (w._right._colour == Colour.BLACK) {
+                        w._left._colour = Colour.BLACK;
+                        w._colour = Colour.RED;
                         _rightRotation(T, w);
                         w = x._parent._right;
                     }
                     w._colour = x._parent._colour;
-                    x._parent._colour = BLACK;
-                    w._right._colour = BLACK;
+                    x._parent._colour = Colour.BLACK;
+                    w._right._colour = Colour.BLACK;
                     _leftRotation(T, x._parent);
                     x = T._root;
                 }
             } else {
                 RedBlackNode<K> w = x._parent._left;
-                if (w._colour == RED) {
-                    w._colour = BLACK;
-                    x._parent._colour = RED;
+                if (w._colour == Colour.RED) {
+                    w._colour = Colour.BLACK;
+                    x._parent._colour = Colour.RED;
                     _rightRotation(T, x._parent);
                     w = x._parent._left;
                 }
-                if ((w._right._colour == BLACK) && (w._left._colour == BLACK)) {
-                    w._colour = RED;
+                if ((w._right._colour == Colour.BLACK) && (w._left._colour == Colour.BLACK)) {
+                    w._colour = Colour.RED;
                     x = x._parent;
                 } else {
-                    if (w._left._colour == BLACK) {
-                        w._right._colour = BLACK;
-                        w._colour = RED;
+                    if (w._left._colour == Colour.BLACK) {
+                        w._right._colour = Colour.BLACK;
+                        w._colour = Colour.RED;
                         _leftRotation(T, w);
                         w = x._parent._left;
                     }
                     w._colour = x._parent._colour;
-                    x._parent._colour = BLACK;
-                    w._left._colour = BLACK;
+                    x._parent._colour = Colour.BLACK;
+                    w._left._colour = Colour.BLACK;
                     _rightRotation(T, x._parent);
                     x = T._root;
                 }
             }
         }
-        x._colour = BLACK;
+        x._colour = Colour.BLACK;
     }
 
     protected static <K extends Comparable<K>> void _remove(RedBlackTree<K> T, RedBlackNode<K> z) {
         RedBlackNode<K> x;
         RedBlackNode<K> y = z;
-        boolean yOriginalColour = y._colour;
-        if (z._left == T.nil) {
+        Colour yOriginalColour = y._colour;
+        if (z._left._key == null) {
             x = z._right;
             _transplant(T, z, z._right);
-        } else if (z._right == T.nil) {
+        } else if (z._right._key == null) {
             x = z._left;
             _transplant(T, z, z._left);
         } else {
-            y = _minimum(T, z._right);
+            y = _minimum(z._right);
             yOriginalColour = y._colour;
             x = y._right;
             if (y._parent == z) {
@@ -253,8 +275,8 @@ class RedBlackNode<K extends Comparable<K>> {
             y._left._parent = y;
             y._colour = z._colour;
         }
-        if (yOriginalColour == BLACK) {
-            _addCorrection(T, x);
+        if (yOriginalColour == Colour.BLACK) {
+            _removeCorrection(T, x);
         }
     }
 }

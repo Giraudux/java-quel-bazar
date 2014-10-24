@@ -8,33 +8,35 @@ import java.util.Iterator;
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     protected RedBlackNode<K> _root;
+    protected RedBlackNode<K> _nil;
 
     public RedBlackTree() {
-        _root = new RedBlackNode<K>();
+        _nil = new RedBlackNode<K>();
+        _root = _nil;
     }
 
     public int height() {
-        return RedBlackNode._height(_root);
+        return RedBlackNode._height(this, _root);
     }
 
     @Override
     public int size() {
-        return RedBlackNode._size(_root);
+        return RedBlackNode._size(this, _root);
     }
 
     @Override
     public boolean isEmpty() {
-        return _root == null;
+        return _root == _nil;
     }
 
     @Override
     public boolean contains(Object o) {
-        return RedBlackNode._search(_root, (K) o) != null;
+        return RedBlackNode._search(this, _root, (K) o) != _nil;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return new RedBlackTreeIterator<K>(RedBlackNode._minimum(_root));
+        return new RedBlackTreeIterator<K>(this, RedBlackNode._minimum(this, _root));
     }
 
     @Override
@@ -49,17 +51,13 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean add(K k) {
-        if(_root == null) {
-            _root = new RedBlackNode<K>(k);
-        } else {
-            RedBlackNode._add(this, new RedBlackNode<K>(k));
-        }
+        RedBlackNode._add(this, new RedBlackNode<K>(this, k));
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        RedBlackNode._remove(this, RedBlackNode._search(_root, (K) o));
+        RedBlackNode._remove(this, RedBlackNode._search(this, _root, (K) o));
         return false;
     }
 
@@ -96,7 +94,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public void clear() {
-        _root = null;
+        _root = _nil;
     }
 
     @Override

@@ -17,26 +17,24 @@ class RedBlackNode<K extends Comparable<K>> {
         _colour = Colour.BLACK;
     }
 
-    protected RedBlackNode(K k) {
+    protected RedBlackNode(RedBlackTree<K> T, K k) {
         _key = k;
-        _parent = new RedBlackNode<K>();
-        _left = new RedBlackNode<K>();
-        _left._parent = this;
-        _right = new RedBlackNode<K>();
-        _right._parent = this;
+        _parent = T._nil;
+        _left = T._nil;
+        _right = T._nil;
         _colour = Colour.RED;
     }
 
-    protected static <K extends Comparable<K>> int _height(RedBlackNode<K> x) {
-        if(x._key == null) {
+    protected static <K extends Comparable<K>> int _height(RedBlackTree<K> T, RedBlackNode<K> x) {
+        if(x == T._nil) {
             return 0;
         }
-        return Math.max(_height(x._left), _height(x._right))+1;
+        return Math.max(_height(T, x._left), _height(T, x._right))+1;
     }
 
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackNode<K> x, K k) {
-        while ((x._key != null) && (!k.equals(x._key))) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackTree<K> T, RedBlackNode<K> x, K k) {
+        while ((x != T._nil) && (!k.equals(x._key))) {
             if (k.compareTo(x._key) < 0) {
                 x = x._left;
             } else {
@@ -46,48 +44,48 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackNode<K> x) {
-        while (x._left._key != null) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackTree<K> T, RedBlackNode<K> x) {
+        while (x._left != T._nil) {
             x = x._left;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackNode<K> x) {
-        while (x._right._key != null) {
+    protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackTree<K> T, RedBlackNode<K> x) {
+        while (x._right != T._nil) {
             x = x._right;
         }
         return x;
     }
 
-    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackNode<K> x) {
-        if (x._right._key != null) {
-            return _minimum(x._right);
+    protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackTree<K> T, RedBlackNode<K> x) {
+        if (x._right != T._nil) {
+            return _minimum(T, x._right);
         }
         RedBlackNode<K> y = x._parent;
-        while ((y._key != null) && (x == y._right)) {
+        while ((y != T._nil) && (x == y._right)) {
             x = (y);
             y = y._parent;
         }
         return y;
     }
 
-    protected static <K extends Comparable<K>> int _size(RedBlackNode<K> x) {
-        if (x._key == null) {
+    protected static <K extends Comparable<K>> int _size(RedBlackTree<K> T, RedBlackNode<K> x) {
+        if (x == T._nil) {
             return 0;
         }
-        return 1 + _size(x._left) + _size(x._right);
+        return 1 + _size(T, x._left) + _size(T, x._right);
     }
 
     protected static <K extends Comparable<K>> void _leftRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
-        if(x._right._key != null) {
+        if(x._right != T._nil) {
             RedBlackNode<K> y = (x._right);
             x._right = y._left;
-            if (y._left._key != null) {
+            if (y._left != T._nil) {
                 y._left._parent = x;
             }
             y._parent = x._parent;
-            if (x._parent._key == null) {
+            if (x._parent == T._nil) {
                 T._root = y;
             } else if (x == x._parent._left) {
                 (x._parent._left) = y;
@@ -100,14 +98,14 @@ class RedBlackNode<K extends Comparable<K>> {
     }
 
     protected static <K extends Comparable<K>> void _rightRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
-        if(x._left._key != null) {
+        if(x._left != T._nil) {
             RedBlackNode<K> y = (x._left);
             x._left = y._right;
-            if (y._right._key != null) {
+            if (y._right != T._nil) {
                 y._right._parent = x;
             }
             y._parent = x._parent;
-            if (x._parent._key == null) {
+            if (x._parent == T._nil) {
                 T._root = y;
             } else if (x == x._parent._right) {
                 (x._parent._right) = y;
@@ -159,9 +157,9 @@ class RedBlackNode<K extends Comparable<K>> {
     }
 
     protected static <K extends Comparable<K>> void _add(RedBlackTree<K> T, RedBlackNode<K> z) {
-        RedBlackNode<K> y = new RedBlackNode<K>();
+        RedBlackNode<K> y = T._nil;
         RedBlackNode<K> x = T._root;
-        while (x._key != null) {
+        while (x != T._nil) {
             y = (x);
             if (z._key.compareTo(x._key) < 0) {
                 x = x._left;
@@ -170,21 +168,18 @@ class RedBlackNode<K extends Comparable<K>> {
             }
         }
         z._parent = y;
-        if (y._key == null) {
+        if (y == T._nil) {
             T._root = z;
         } else if (z._key.compareTo(y._key) < 0) {
             y._left = z;
         } else {
             y._right = z;
         }
-        /*z._left = T.nil;
-        z._right = T.nil;
-        z._colour = RED;*/
         _addCorrection(T, z);
     }
 
     protected static <K extends Comparable<K>> void _transplant(RedBlackTree<K> T, RedBlackNode<K> u, RedBlackNode<K> v) {
-        if (u._parent._key == null) {
+        if (u._parent == T._nil) {
             T._root = v;
         } else if (u == u._parent._left) {
             u._parent._left = v;
@@ -253,14 +248,14 @@ class RedBlackNode<K extends Comparable<K>> {
         RedBlackNode<K> x;
         RedBlackNode<K> y = z;
         Colour yOriginalColour = y._colour;
-        if (z._left._key == null) {
+        if (z._left == T._nil) {
             x = z._right;
             _transplant(T, z, z._right);
-        } else if (z._right._key == null) {
+        } else if (z._right == T._nil) {
             x = z._left;
             _transplant(T, z, z._left);
         } else {
-            y = _minimum(z._right);
+            y = _minimum(T, z._right);
             yOriginalColour = y._colour;
             x = y._right;
             if (y._parent == z) {

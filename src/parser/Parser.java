@@ -2,22 +2,28 @@ package parser;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.StreamTokenizer;
 import java.util.Collection;
 
 /**
  * @author Alexis Giraudet
  */
 public class Parser {
-    public static boolean parseLine(String fileName, Collection<String> c) {
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                c.add(line);
-            }
-        } catch (Exception e) {
-            return false;
+    public static void parseLines(String fileName, Collection<String> c) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            c.add(line);
         }
-        return true;
+    }
+    
+    public static void parseTokens(String fileName, Collection<String> c) throws IOException {
+        StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
+        while(streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
+            if(streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
+                c.add(streamTokenizer.sval);
+            }
+        }
     }
 }

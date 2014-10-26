@@ -57,7 +57,11 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean remove(Object o) {
-        RedBlackNode._remove(this, RedBlackNode._search(this, _root, (K) o));
+        RedBlackNode<K> z = RedBlackNode._search(this, _root, (K) o);
+        if (z != _nil) {
+            RedBlackNode._remove(this, z);
+            return true;
+        }
         return false;
     }
 
@@ -81,10 +85,11 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        boolean r = true;
         for (Object x : c) {
-            remove((K) x);
+            r = remove(x) && r;
         }
-        return false;
+        return r;
     }
 
     @Override
@@ -99,12 +104,15 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        for(K k : this) {
-            s.append(' ').append(k.toString()).append(',');
+        if (!isEmpty()) {
+            StringBuilder s = new StringBuilder();
+            for (K k : this) {
+                s.append(' ').append(k.toString()).append(',');
+            }
+            s.setCharAt(0, '[');
+            s.setCharAt(s.length() - 1, ']');
+            return s.toString();
         }
-        s.setCharAt(0, '[');
-        s.setCharAt(s.length()-1, ']');
-        return s.toString();
+        return "[]";
     }
 }

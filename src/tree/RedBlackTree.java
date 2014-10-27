@@ -7,10 +7,11 @@ import java.util.Iterator;
  * @author Alexis Giraudet
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
-    protected RedBlackNode<K> _root;
-    protected RedBlackNode<K> _nil;
+    private int _size;
+    protected RedBlackNode<K> _root, _nil;
 
     public RedBlackTree() {
+        _size = 0;
         _nil = new RedBlackNode<K>();
         _root = _nil;
     }
@@ -21,7 +22,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public int size() {
-        return RedBlackNode._size(this, _root);
+        return _size;
     }
 
     @Override
@@ -30,6 +31,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
         return RedBlackNode._search(this, _root, (K) o) != _nil;
     }
@@ -41,25 +43,39 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] r = new Object[_size];
+        int i = 0;
+        Iterator<K> it = iterator();
+        while ((it.hasNext()) && (i < size())) {
+            r[i] = it.next();
+            i++;
+        }
+        return r;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         return null;
     }
 
     @Override
     public boolean add(K k) {
-        RedBlackNode._add(this, new RedBlackNode<K>(this, k));
+        if (!contains(k)) {
+            RedBlackNode._add(this, new RedBlackNode<K>(this, k));
+            _size++;
+            return true;
+        }
         return false;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
         RedBlackNode<K> z = RedBlackNode._search(this, _root, (K) o);
         if (z != _nil) {
             RedBlackNode._remove(this, z);
+            _size--;
             return true;
         }
         return false;
@@ -76,29 +92,38 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean addAll(Collection<? extends K> c) {
+        boolean r = false;
         for (Object x : c) {
-            add((K) x);
+            r = add((K) x) || r;
         }
-        return false;
+        return r;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        boolean r = true;
+        boolean r = false;
         for (Object x : c) {
-            r = remove(x) && r;
+            r = remove(x) || r;
         }
         return r;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean r = false;
+        for (Object x : c) {
+            if (!contains(x)) {
+                r = remove(x) || r;
+            }
+        }
+        return r;
     }
 
     @Override
     public void clear() {
+        _size = 0;
         _root = _nil;
     }
 

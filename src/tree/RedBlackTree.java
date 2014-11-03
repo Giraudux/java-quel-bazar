@@ -8,7 +8,8 @@ import java.util.Iterator;
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     private int _size;
-    protected RedBlackNode<K> _root, _nil;
+    protected RedBlackNode<K> _root;
+    protected final RedBlackNode<K> _nil;
 
     public RedBlackTree() {
         _size = 0;

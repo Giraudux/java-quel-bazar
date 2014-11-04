@@ -10,19 +10,20 @@ import java.util.Collection;
  * @author Alexis Giraudet
  */
 public class Parser {
+
     public static void parseLines(String fileName, Collection<String> c) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            c.add(line);
+            c.add(line.toLowerCase());
         }
     }
-    
+
     public static void parseTokens(String fileName, Collection<String> c) throws IOException {
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
         while(streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             if(streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
-                c.add(streamTokenizer.sval);
+                c.add(streamTokenizer.sval.toLowerCase());
             }
         }
     }

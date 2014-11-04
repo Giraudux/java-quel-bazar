@@ -1,6 +1,7 @@
 package test;
 
 import tree.RedBlackTree;
+import tree.Tree;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class TreeTest {
         printTree(t);
     }
 
-    private static <K extends Comparable<K>> void printTree(RedBlackTree<K> t) {
+    protected static <K extends Comparable<K>> void printTree(Tree<K> t) {
         System.out.println("height = "+t.height());
         System.out.println("size = "+t.size());
         System.out.println("isEmpty = "+t.isEmpty());

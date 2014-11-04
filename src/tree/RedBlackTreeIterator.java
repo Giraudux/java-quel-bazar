@@ -29,4 +29,9 @@ public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K
         __currentNode = RedBlackNode._successor(__currentTree, __currentNode);
         return k;
     }
+
+    @Override
+    public void remove() {
+        ;
+    }
 }

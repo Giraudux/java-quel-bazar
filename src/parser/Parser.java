@@ -21,6 +21,21 @@ public class Parser {
 
     public static void parseTokens(String fileName, Collection<String> c) throws IOException {
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
+        streamTokenizer.quoteChar('.');
+        streamTokenizer.quoteChar(',');
+        streamTokenizer.quoteChar(';');
+        streamTokenizer.quoteChar(':');
+        streamTokenizer.quoteChar('!');
+        streamTokenizer.quoteChar(',');
+        streamTokenizer.quoteChar('"');
+        streamTokenizer.quoteChar('(');
+        streamTokenizer.quoteChar(')');
+        streamTokenizer.quoteChar('[');
+        streamTokenizer.quoteChar(']');
+        streamTokenizer.quoteChar('{');
+        streamTokenizer.quoteChar('}');
+        streamTokenizer.quoteChar('«');
+        streamTokenizer.quoteChar('»');
         while(streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             if(streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
                 c.add(streamTokenizer.sval.toLowerCase());

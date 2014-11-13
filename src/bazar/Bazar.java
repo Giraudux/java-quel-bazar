@@ -103,6 +103,7 @@ public class Bazar {
         } catch (ParseException e) {
             System.err.println(e.getMessage());
             System.out.println("Usage : bazar -k [K] -d [DICO] [PAGE]...");
+            System.exit(1);
         }
 
         try {

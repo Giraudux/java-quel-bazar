@@ -6,7 +6,7 @@ import tree.Tree;
 /**
  * @author Alexis Giraudet
  */
-public class Chapter implements Comparable {
+public class Chapter implements Comparable<Chapter> {
     private final Integer __id;
     private Tree<String> __keyWords;
     private Tree<Page> __pages;
@@ -46,8 +46,8 @@ public class Chapter implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return __id.compareTo(((Chapter) o).getId());
+    public int compareTo(Chapter c) {
+        return __id.compareTo(c.getId());
     }
 
     @Override

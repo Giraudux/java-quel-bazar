@@ -1,15 +1,38 @@
 package tree;
 
 /**
- * @author Alexis Giraudet
+ * Classe qui implément les noeud de l'arbre rouge et noir
+ * @see RedBlackTree
+ * @author Alexis Giraudet & François Hallereau
+ * @version 1.0
  */
 class RedBlackNode<K extends Comparable<K>> {
+
+    /**
+     * Colour les couleurs (ROUGE,NOIR) que peuvent prendre les noeuds
+     */
     private static enum Colour {RED, BLACK}
 
+    /**
+     * _key la valeur du noeud
+     */
     protected final K _key;
+
+    /**
+     * _parent le père du noeud
+     * _left le fils gauche
+     * _right le fils droit
+     */
     private RedBlackNode<K> _parent, _left, _right;
+
+    /**
+     * _colour la couleur du noeud
+     */
     private Colour _colour;
 
+    /**
+     * Constructeur de la classe
+     */
     protected RedBlackNode() {
         _key = null;
         _parent = this;
@@ -18,6 +41,11 @@ class RedBlackNode<K extends Comparable<K>> {
         _colour = Colour.BLACK;
     }
 
+    /**
+     * constructeur de la classe
+     * @param T l'arbre
+     * @param k la valeur
+     */
     protected RedBlackNode(RedBlackTree<K> T, K k) {
         _key = k;
         _parent = T._nil;
@@ -26,6 +54,12 @@ class RedBlackNode<K extends Comparable<K>> {
         _colour = Colour.RED;
     }
 
+    /**
+     * Méthode qui calcule la hauteur
+     * @param T l'arbre
+     * @param x le noeud
+     * @return la hauteur du noeud
+     */
     protected static <K extends Comparable<K>> int _height(RedBlackTree<K> T, RedBlackNode<K> x) {
         if (x == T._nil) {
             return 0;
@@ -33,7 +67,13 @@ class RedBlackNode<K extends Comparable<K>> {
         return Math.max(_height(T, x._left), _height(T, x._right)) + 1;
     }
 
-
+    /**
+     * Méthode qui recherche un élément dans l'arbre
+     * @param T l'arbre
+     * @param x le noeud
+     * @param k la valeur
+     * @return un noeud
+     */
     protected static <K extends Comparable<K>> RedBlackNode<K> _search(RedBlackTree<K> T, RedBlackNode<K> x, K k) {
         while ((x != T._nil) && (!k.equals(x._key))) {
             if (k.compareTo(x._key) < 0) {
@@ -45,6 +85,12 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
+    /**
+     * Méthode qui retourne le minimum
+     * @param T l'arbre
+     * @param x le noeud
+     * @return le noeud
+     */
     protected static <K extends Comparable<K>> RedBlackNode<K> _minimum(RedBlackTree<K> T, RedBlackNode<K> x) {
         while (x._left != T._nil) {
             x = x._left;
@@ -52,6 +98,12 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
+    /**
+     * méthode qui retourne le maximum
+     * @param T l'arbre
+     * @param x le noeud
+     * @return le noeud
+     */
     protected static <K extends Comparable<K>> RedBlackNode<K> _maximum(RedBlackTree<K> T, RedBlackNode<K> x) {
         while (x._right != T._nil) {
             x = x._right;
@@ -59,6 +111,12 @@ class RedBlackNode<K extends Comparable<K>> {
         return x;
     }
 
+    /**
+     *
+     * @param T
+     * @param x
+     * @return
+     */
     protected static <K extends Comparable<K>> RedBlackNode<K> _successor(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> y;
         if (x._right != T._nil) {
@@ -72,6 +130,12 @@ class RedBlackNode<K extends Comparable<K>> {
         return y;
     }
 
+    /**
+     * méthode qui retourne le nombre d'élément
+     * @param T l'arbre
+     * @param x le noeud
+     * @return la taille
+     */
     protected static <K extends Comparable<K>> int _size(RedBlackTree<K> T, RedBlackNode<K> x) {
         if (x == T._nil) {
             return 0;
@@ -79,6 +143,11 @@ class RedBlackNode<K extends Comparable<K>> {
         return 1 + _size(T, x._left) + _size(T, x._right);
     }
 
+    /**
+     * Méthode qui effectue une rotation gauche sur un noeud
+     * @param T l'arbre
+     * @param x le noeud
+     */
     private static <K extends Comparable<K>> void _leftRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> y;
         if (x._right != T._nil) {
@@ -100,6 +169,11 @@ class RedBlackNode<K extends Comparable<K>> {
         }
     }
 
+    /**
+     * Méthode qui effectue une rotation droite sur un noeud
+     * @param T l'arbre
+     * @param x le noeud
+     */
     private static <K extends Comparable<K>> void _rightRotation(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> y;
         if (x._left != T._nil) {
@@ -121,6 +195,11 @@ class RedBlackNode<K extends Comparable<K>> {
         }
     }
 
+    /**
+     * Méthode qui effectue une correction sur un noeud
+     * @param T l'arbre
+     * @param x le noeud
+     */
     private static <K extends Comparable<K>> void _addCorrection(RedBlackTree<K> T, RedBlackNode<K> z) {
         RedBlackNode<K> y;
         while (z._parent._colour == Colour.RED) {
@@ -161,6 +240,11 @@ class RedBlackNode<K extends Comparable<K>> {
         T._root._colour = Colour.BLACK;
     }
 
+    /**
+     * Méthode qui ajoute un noeud
+     * @param T l'arbre
+     * @param z le noeud
+     */
     protected static <K extends Comparable<K>> void _add(RedBlackTree<K> T, RedBlackNode<K> z) {
         RedBlackNode<K> x = T._root, y = T._nil;
         while (x != T._nil) {
@@ -182,6 +266,12 @@ class RedBlackNode<K extends Comparable<K>> {
         _addCorrection(T, z);
     }
 
+    /**
+     *
+     * @param T
+     * @param u
+     * @param v
+     */
     private static <K extends Comparable<K>> void _transplant(RedBlackTree<K> T, RedBlackNode<K> u, RedBlackNode<K> v) {
         if (u._parent == T._nil) {
             T._root = v;
@@ -193,6 +283,11 @@ class RedBlackNode<K extends Comparable<K>> {
         v._parent = u._parent;
     }
 
+    /**
+     *
+     * @param T
+     * @param x
+     */
     private static <K extends Comparable<K>> void _removeCorrection(RedBlackTree<K> T, RedBlackNode<K> x) {
         RedBlackNode<K> w;
         while ((x != T._root) && (x._colour == Colour.BLACK)) {
@@ -249,6 +344,11 @@ class RedBlackNode<K extends Comparable<K>> {
         x._colour = Colour.BLACK;
     }
 
+    /**
+     * Méthode qui supprime un noeud
+     * @param T l'arbre
+     * @param z le noeud
+     */
     protected static <K extends Comparable<K>> void _remove(RedBlackTree<K> T, RedBlackNode<K> z) {
         RedBlackNode<K> x, y = z;
         Colour yOriginalColour = y._colour;

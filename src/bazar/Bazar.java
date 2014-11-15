@@ -13,13 +13,36 @@ import tree.Tree;
 import java.io.IOException;
 
 /**
- * @author Alexis Giraudet
+ * Classe bazar
+ * ensemble de pages initialement non trié
+ * @author Alexis Giraudet & François Hallereau
+ * @version 1.0
  */
 public class Bazar {
+
+    /**
+     * __k constante qui indique le nombre de mots en commun avec le dictionnaire pour faire partie d'un chapitre
+     */
     private int __k;
+
+    /**
+     * __pages ensemble de pages
+     * @see bazar.Page
+     */
     private Tree<Page> __pages;
+
+    /**
+     * __dico dictionnaire de mots
+     */
     private Tree<String> __dico;
 
+    /**
+     * Constructeur de la classe
+     * @param k la constante
+     * @param dico le dictionnaire
+     * @param pages les pages
+     * @throws IOException
+     */
     public Bazar(int k, String dico, String[] pages) throws IOException {
         __k = k;
         __pages = new RedBlackTree<Page>();
@@ -27,6 +50,12 @@ public class Bazar {
         load(dico, pages);
     }
 
+    /**
+     * Méthode qui parse le dico et les pages
+     * @param dico le dictionnaire
+     * @param pages les pages
+     * @throws IOException
+     */
     private void load(String dico, String[] pages) throws IOException {
         __dico = Parser.parseDico(dico);
         for (String s : pages) {
@@ -34,6 +63,10 @@ public class Bazar {
         }
     }
 
+    /**
+     * Méthode qui trie les pages et les classe par chapitre
+     * @see Chapter
+     */
     public void resolve() {
         for (Page p : __pages) {
             p.getWords().retainAll(__dico);

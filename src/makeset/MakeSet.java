@@ -10,23 +10,24 @@ package makeset;
 public class MakeSet<K> {
 
     /**
-     * _key représente la valeur à stocker
+     * représente la valeur à stocker
      */
     protected final K _key;
 
     /**
-     * _parent fait référence au père de l'objet
+     * fait référence au père de l'objet
      */
     protected MakeSet<K> _parent;
 
     /**
-     * _rank est le rang de la classe
+     * le rang de la classe
      */
     protected long _rank;
 
     /**
      * Constructeur de la classe MakeSet
-     * @param k la valeur attribué à _key @see #_key
+     * @param k la valeur attribué à _key
+     * @see #_key
      */
     public MakeSet(K k) {
         _key = k;

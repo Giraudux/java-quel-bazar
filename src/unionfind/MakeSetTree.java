@@ -8,17 +8,17 @@ package unionfind;
 public class MakeSetTree<K extends Comparable<K>>{
 
     /**
-     * _parent fait référence au père de l'objet
+     * fait référence au père de l'objet
      */
     protected MakeSetTree<K> _parent;
 
     /**
-     * _key représente la valeur à stocker
+     * représente la valeur à stocker
      */
     protected final K _key;
 
     /**
-     * _rank est le rang de la classe
+     * le rang de la classe
      */
     protected int _rank;
 

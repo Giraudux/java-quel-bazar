@@ -11,17 +11,17 @@ import tree.Tree;
 public class Chapter implements Comparable<Chapter> {
 
     /**
-     * __id le numéro du chapitre
+     * le numéro du chapitre
      */
     private final Integer __id;
 
     /**
-     * __les mots clés du chapitre
+     * les mots clés du chapitre
      */
     private Tree<String> __keyWords;
 
     /**
-     * __pages les pages du chapitre
+     * les pages du chapitre
      * @see bazar.Page
      */
     private Tree<Page> __pages;

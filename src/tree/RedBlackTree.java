@@ -12,17 +12,17 @@ import java.util.Iterator;
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
 
     /**
-     * _size le nombre d'élément contenu dans l'arbre
+     * le nombre d'élément contenu dans l'arbre
      */
     private int _size;
 
     /**
-     * _root la racine de l'arbre
+     * la racine de l'arbre
      */
     protected RedBlackNode<K> _root;
 
     /**
-     * _nil la feuille null
+     * la feuille null
      */
     protected final RedBlackNode<K> _nil;
 
@@ -46,6 +46,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     /**
      * Accesseur de l'attribut _size
      * @return _size le nombre d'éléments
+     * @see #_size
      */
     @Override
     public int size() {

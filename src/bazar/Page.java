@@ -11,12 +11,12 @@ import tree.Tree;
 public class Page implements Comparable<Page> {
 
     /**
-     * __id le numéro de page
+     * le numéro de page
      */
     private final Integer __id;
 
     /**
-     * __words les mots de la pages
+     * les mots de la pages
      */
     private Tree<String> __words;
 
@@ -48,7 +48,7 @@ public class Page implements Comparable<Page> {
     }
 
     /**
-     * Teste si la page à au moins k mots en commun avec la page p
+     * Teste si la page a au moins k mots en commun avec la page p
      * @param p la page à tester
      * @param k la constante
      * @return true si les deux pages ont au moins k mots en commun
@@ -67,9 +67,9 @@ public class Page implements Comparable<Page> {
     }
 
     /**
-     * Compare 2 pages enfonction de leur numéro de page
+     * Compare 2 pages en fonction de leur numéro de page
      * @param p la page
-     * @return un entier7
+     * @return un entier
      * @see java.lang.Comparable#compareTo(T o)
      */
     @Override

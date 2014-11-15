@@ -1,7 +1,7 @@
 package tree;
 
 /**
- * Classe qui implément les noeud de l'arbre rouge et noir
+ * Classe qui implémente les noeuds de l'arbre rouge et noir
  * @see RedBlackTree
  * @author Alexis Giraudet & François Hallereau
  * @version 1.0
@@ -14,19 +14,27 @@ class RedBlackNode<K extends Comparable<K>> {
     private static enum Colour {RED, BLACK}
 
     /**
-     * _key la valeur du noeud
+     * la valeur du noeud
      */
     protected final K _key;
 
     /**
-     * _parent le père du noeud
-     * _left le fils gauche
-     * _right le fils droit
+     * le père du noeud
      */
-    private RedBlackNode<K> _parent, _left, _right;
+    private RedBlackNode<K> _parent;
 
     /**
-     * _colour la couleur du noeud
+     * le fils gauche
+     */
+    private RedBlackNode<K>  _left;
+
+    /**
+     * le fils droit
+     */
+    private RedBlackNode<K>  _right;
+
+    /**
+     * la couleur du noeud
      */
     private Colour _colour;
 

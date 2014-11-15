@@ -12,12 +12,12 @@ import java.util.NoSuchElementException;
  */
 public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K> {
     /**
-     * __currenTree l'arbre sur lequel on applique l'itération
+     * l'arbre sur lequel on applique l'itération
      */
     private RedBlackTree<K> __currentTree;
 
     /**
-     * __currentNode le noeud courant
+     * le noeud courant
      */
     private RedBlackNode<K> __currentNode;
 

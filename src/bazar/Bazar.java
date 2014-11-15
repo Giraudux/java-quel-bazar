@@ -13,7 +13,7 @@ import tree.Tree;
 import java.io.IOException;
 
 /**
- * Classe bazar
+ * Classe Bazar
  * ensemble de pages initialement non trié
  * @author Alexis Giraudet & François Hallereau
  * @version 1.0
@@ -21,18 +21,18 @@ import java.io.IOException;
 public class Bazar {
 
     /**
-     * __k constante qui indique le nombre de mots en commun avec le dictionnaire pour faire partie d'un chapitre
+     * constante qui indique le nombre de mots en commun avec le dictionnaire pour faire partie d'un chapitre
      */
     private int __k;
 
     /**
-     * __pages ensemble de pages
+     * ensemble de pages
      * @see bazar.Page
      */
     private Tree<Page> __pages;
 
     /**
-     * __dico dictionnaire de mots
+     * dictionnaire de mots
      */
     private Tree<String> __dico;
 
@@ -65,7 +65,7 @@ public class Bazar {
 
     /**
      * Méthode qui trie les pages et les classe par chapitre
-     * @see Chapter
+     * @see bazar.Chapter
      */
     public void resolve() {
         for (Page p : __pages) {

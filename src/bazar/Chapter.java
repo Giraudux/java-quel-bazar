@@ -38,7 +38,7 @@ public class Chapter implements Comparable<Chapter> {
 
     /**
      * Accesseur de l'attribut __id
-     * @see bazar.Chapter#id
+     * @see bazar.Chapter#__id
      * @return __id
      */
     public Integer getId() {
@@ -94,7 +94,7 @@ public class Chapter implements Comparable<Chapter> {
      * Méthode de comparaison de chapitre en fonction de l'id
      * @param c le chapitre
      * @return un entier
-     * @see java.lang.Comparable#compareTo(T o)
+     * @see java.lang.Comparable
      */
     @Override
     public int compareTo(Chapter c) {

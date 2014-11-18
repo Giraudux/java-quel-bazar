@@ -70,7 +70,7 @@ public class Page implements Comparable<Page> {
      * Compare 2 pages en fonction de leur numéro de page
      * @param p la page
      * @return un entier
-     * @see java.lang.Comparable#compareTo(T o)
+     * @see java.lang.Comparable
      */
     @Override
     public int compareTo(Page p) {

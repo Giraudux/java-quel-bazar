@@ -103,7 +103,7 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
      *
      * @param a
      * @param <T>
-     * @return
+     * @return null
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -190,15 +190,21 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     /**
      * Méthode qui supprime les éléments de l'arbre si ils ne sont pas dans la collection
      * @param c la collection
-     * @return booléen si aucun élément n'a pu être supprimer
+     * @return vrai si l'arbre a été modifié
      */
     @Override
     public boolean retainAll(Collection<?> c) {
-        //TODO tester cette fonction
         boolean r = false;
-        for (Object x : c) {
+        /*for (Object x : this) {
             if (!contains(x)) {
                 r = remove(x) || r;
+            }
+        }*/
+        Iterator<K> it = iterator();
+        while (it.hasNext()) {
+            K k = it.next();
+            if(!c.contains(k)) {
+                r = remove(k) || r;
             }
         }
         return r;

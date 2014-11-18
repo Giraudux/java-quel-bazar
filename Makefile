@@ -7,7 +7,7 @@ jar:
 
 doc:
 	-mkdir ./doc/javadoc
-#	javadoc ...
+	javadoc -public -splitindex -author -version -charset UTF-8 -d ./doc/javadoc bazar parser tree -sourcepath ./src
 
 clean:
 	-rm -r ./bin

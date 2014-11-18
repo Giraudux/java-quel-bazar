@@ -4,7 +4,7 @@ package makeset;
  * Classe qui implémente la structure Classe-Union
  * version statique
  * @see unionfind.MakeSetTree
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * @version 1.0
  */
 public class MakeSet<K> {

@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Classe Bazar
  * ensemble de pages initialement non trié
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * @version 1.0
  */
 public class Bazar {
@@ -41,7 +41,7 @@ public class Bazar {
      * @param k la constante
      * @param dico le dictionnaire
      * @param pages les pages
-     * @throws IOException
+     * @throws IOException lorsque le parser échoue
      */
     public Bazar(int k, String dico, String[] pages) throws IOException {
         __k = k;
@@ -54,7 +54,7 @@ public class Bazar {
      * Méthode qui parse le dico et les pages
      * @param dico le dictionnaire
      * @param pages les pages
-     * @throws IOException
+     * @throws IOException lorsque le parser échoue
      */
     private void load(String dico, String[] pages) throws IOException {
         __dico = Parser.parseDico(dico);
@@ -69,23 +69,23 @@ public class Bazar {
      */
     public void resolve() {
         for (Page p : __pages) {
-            p.getWords().retainAll(__dico);
+            p.getWords().retainAll(__dico); //on conserve uniquement les mots ayant un rapport avec le dico
         }
 
         Tree<Chapter> chapters = new RedBlackTree<Chapter>();
-        int i = 0;
+        int i = 1;
         for (Page p : __pages) {
             boolean added = false;
-            for (Chapter c : chapters) {
-                if (c.addPage(p, __k)) {
-                    added = true;
+            for (Chapter c : chapters) {//parcours des chapitres existants
+                if (c.addPage(p, __k)) {//si la page a  k mots en communs avec une autre
+                    added = true;//on l'ajoute au chapitre correspondant
                     break;
                 }
             }
-            if (!added) {
+            if (!added) {//sinon on crée un nouveau chapitre
                 Chapter c = new Chapter(i);
                 i++;
-                c.addPage(p);
+                c.addPage(p);//on ajoute la page au chapitre
                 chapters.add(c);
             }
         }

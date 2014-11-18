@@ -5,7 +5,7 @@ import tree.Tree;
 
 /**
  * Classe qui implémente les chapitres
- * @author Alexis Giraudet & françois Hallereau
+ * @author Alexis Giraudet &amp; françois Hallereau
  * @version 1.0
  */
 public class Chapter implements Comparable<Chapter> {

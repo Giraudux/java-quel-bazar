@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Classe qui implémente l'arbre rouge et noir
  * @see Tree
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * @version 1.0
  */
 public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {

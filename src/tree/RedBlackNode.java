@@ -3,7 +3,7 @@ package tree;
 /**
  * Classe qui implémente les noeuds de l'arbre rouge et noir
  * @see RedBlackTree
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * @version 1.0
  */
 class RedBlackNode<K extends Comparable<K>> {

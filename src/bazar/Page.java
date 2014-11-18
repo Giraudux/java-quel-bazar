@@ -5,7 +5,7 @@ import tree.Tree;
 
 /**
  * Classe qui implémente les pages
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * version 1.0
  */
 public class Page implements Comparable<Page> {

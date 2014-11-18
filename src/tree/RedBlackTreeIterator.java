@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  * Classe qui implémente un itérateur pour l'arbre rouge et noir
  * @see RedBlackTree
  * @see java.util.Iterator
- * @author Alexis Giraudet & Francois Hallereau
+ * @author Alexis Giraudet &amp; Francois Hallereau
  * @version 1.0
  */
 public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K> {

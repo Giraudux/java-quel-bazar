@@ -11,7 +11,7 @@ import java.io.StreamTokenizer;
 
 /**
  * Classe implémentant le Parser
- * @author Alexis Giraudet & François Hallereau
+ * @author Alexis Giraudet &amp; François Hallereau
  * @version 1.0
  */
 public class Parser {
@@ -20,7 +20,7 @@ public class Parser {
      * Méthode qui parse un fichier pour en faire un dictionnaire
      * @param fileName le fichier servant de dictionnaire
      * @return un arbre représentant un dictionnaire
-     * @throws IOException
+     * @throws IOException erreur d'entrée/sortie
      */
     public static Tree<String> parseDico(String fileName) throws IOException {
         Tree<String> t = new RedBlackTree<String>();
@@ -52,7 +52,7 @@ public class Parser {
      * Méthode qui parse un fichier pour en faire une page
      * @param fileName le fichier servant de page
      * @return une page
-     * @throws IOException
+     * @throws IOException erreur d'entrée/sortie
      */
     public static Page parsePage(String fileName) throws IOException {
         Page p;

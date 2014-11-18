@@ -22,6 +22,11 @@ public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K
     private RedBlackNode<K> __currentNode;
 
     /**
+     * le noeud à supprimer lors de l'appel à remove()
+     */
+    private RedBlackNode<K> __removeNode;
+
+    /**
      * Constructeur de RedBlackTreeIterator
      * @param T l'arbre à itérer
      * @param x le noeud de départ pour l'itération
@@ -29,6 +34,7 @@ public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K
     public RedBlackTreeIterator(RedBlackTree<K> T, RedBlackNode<K> x) {
         __currentTree = T;
         __currentNode = x;
+        __removeNode = T._nil;
     }
 
     /**
@@ -51,6 +57,7 @@ public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K
         if (__currentNode == __currentTree._nil) {
             throw new NoSuchElementException();
         }
+        __removeNode = __currentNode;
         K k = __currentNode._key;
         __currentNode = RedBlackNode._successor(__currentTree, __currentNode);
         return k;
@@ -62,6 +69,10 @@ public class RedBlackTreeIterator<K extends Comparable<K>> implements Iterator<K
      */
     @Override
     public void remove() {
-        ;
+        if(__removeNode == __currentTree._nil) {
+            throw new IllegalStateException();
+        }
+        __currentTree.remove(__removeNode._key);
+        __removeNode = __currentTree._nil;
     }
 }

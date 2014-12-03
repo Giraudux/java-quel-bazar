@@ -25,6 +25,7 @@ public class Parser {
     public static Tree<String> parseDico(String fileName) throws IOException {
         Tree<String> t = new RedBlackTree<String>();
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
+        streamTokenizer.whitespaceChars(' ', '/');
         /*streamTokenizer.quoteChar('.');
         streamTokenizer.quoteChar(',');
         streamTokenizer.quoteChar(';');
@@ -58,13 +59,14 @@ public class Parser {
         Page p;
         Tree<String> words;
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
-        streamTokenizer.quoteChar('.');
+        streamTokenizer.whitespaceChars(' ', '/');
+        /*streamTokenizer.quoteChar('.');
         streamTokenizer.quoteChar(',');
         streamTokenizer.quoteChar(';');
         streamTokenizer.quoteChar(':');
         streamTokenizer.quoteChar('!');
         streamTokenizer.quoteChar('?');
-        /*streamTokenizer.quoteChar('"');
+        streamTokenizer.quoteChar('"');
         streamTokenizer.quoteChar('(');
         streamTokenizer.quoteChar(')');
         streamTokenizer.quoteChar('[');
@@ -78,6 +80,7 @@ public class Parser {
         }
         p = new Page((int) streamTokenizer.nval);
         words = p.getWords();
+        streamTokenizer.whitespaceChars(' ', '@');
         while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             if (streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
                 words.add(streamTokenizer.sval.toLowerCase());

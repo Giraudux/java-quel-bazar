@@ -5,13 +5,14 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import parser.Parser;
 import tree.RedBlackTree;
 import tree.Tree;
 
-import java.io.IOException;
-
+import java.io.File;
+import java.io.FileFilter;
 /**
  * Classe Bazar
  * ensemble de pages initialement non trié
@@ -19,65 +20,63 @@ import java.io.IOException;
  * @version 1.0
  */
 public class Bazar {
+    public static void main(String[] args) {
+        int k = 0;
+        Tree<Page> pages = new RedBlackTree<Page>();
+        Tree<String> dico = null;
 
-    /**
-     * constante qui indique le nombre de mots en commun avec le dictionnaire pour faire partie d'un chapitre
-     */
-    private int __k;
+        try
+        {
+            String _k = null;
+            String _dico = null;
+            String[] _pages = null;
 
-    /**
-     * ensemble de pages
-     * @see bazar.Page
-     */
-    private Tree<Page> __pages;
+            CommandLineParser parser = new GnuParser();
+            Options options = new Options();
 
-    /**
-     * dictionnaire de mots
-     */
-    private Tree<String> __dico;
+            options.addOption(OptionBuilder
+                    .hasArg()
+                    .isRequired()
+                    .create("dico"));
+            options.addOption(OptionBuilder
+                    .hasArg()
+                    .isRequired()
+                    .withType(Number.class)
+                    .create("k"));
 
-    /**
-     * Constructeur de la classe
-     * @param k la constante
-     * @param dico le dictionnaire
-     * @param pages les pages
-     * @throws IOException lorsque le parser échoue
-     */
-    public Bazar(int k, String dico, String[] pages) throws IOException {
-        __k = k;
-        __pages = new RedBlackTree<Page>();
-        __dico = null;
-        load(dico, pages);
-    }
+            CommandLine line = parser.parse(options, args);
 
-    /**
-     * Méthode qui parse le dico et les pages
-     * @param dico le dictionnaire
-     * @param pages les pages
-     * @throws IOException lorsque le parser échoue
-     */
-    private void load(String dico, String[] pages) throws IOException {
-        __dico = Parser.parseDico(dico);
-        for (String s : pages) {
-            __pages.add(Parser.parsePage(s));
+            _k = line.getOptionValue("k");
+            _dico = line.getOptionValue("dico");
+            _pages = line.getArgs();
+
+            k = Integer.parseInt(_k);
+            dico = Parser.parseDico(new File(_dico));
+            for(String fileName : _pages)
+            {
+                File dir = new File(FilenameUtils.getFullPath(fileName));
+                FileFilter fileFilter = new WildcardFileFilter(FilenameUtils.getName(fileName));
+                File[] files = dir.listFiles(fileFilter);
+                for(File file : files) {
+                    pages.add(Parser.parsePage(file));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println("Usage : java -jar Bazar.jar -k [K] -d [DICO] [PAGE]...");
+            System.exit(1);
         }
-    }
 
-    /**
-     * Méthode qui trie les pages et les classe par chapitre
-     * @see bazar.Chapter
-     */
-    public void resolve() {
-        for (Page p : __pages) {
-            p.getWords().retainAll(__dico); //on conserve uniquement les mots ayant un rapport avec le dico
+        for (Page p : pages) {
+            p.getWords().retainAll(dico); //on conserve uniquement les mots ayant un rapport avec le dico
         }
 
         Tree<Chapter> chapters = new RedBlackTree<Chapter>();
         int i = 1;
-        for (Page p : __pages) {
+        for (Page p : pages) {
             boolean added = false;
             for (Chapter c : chapters) {//parcours des chapitres existants
-                if (c.addPage(p, __k)) {//si la page a  k mots en communs avec une autre
+                if (c.addPage(p, k)) {//si la page a  k mots en communs avec une autre
                     added = true;//on l'ajoute au chapitre correspondant
                     break;
                 }
@@ -90,7 +89,6 @@ public class Bazar {
             }
         }
 
-        //TODO: redondant
         for (Chapter c0 : chapters) {
             for (Chapter c1 : chapters) {
                 if (c0 != c1) {
@@ -102,48 +100,6 @@ public class Bazar {
 
         for (Chapter c : chapters) {
             System.out.println(c);
-        }
-    }
-
-    public static void main(String[] args) {
-        Bazar bazar;
-        String k = null;
-        String dico = null;
-        String[] pages = null;
-
-        CommandLineParser parser = new GnuParser();
-        Options options = new Options();
-        options.addOption(OptionBuilder.withArgName("d")
-                .withLongOpt("dico")
-                .withDescription("dictionnary file path")
-                .hasArg(true)
-                .withArgName("DICO")
-                .isRequired(true)
-                .create());
-        options.addOption(OptionBuilder.withArgName("k")
-                .withLongOpt("k")
-                .withDescription("minimal words difference between two page to form a chapter")
-                .hasArg(true)
-                .withArgName("K")
-                .isRequired(true)
-                        //.withType(Number.class)
-                .create());
-        try {
-            CommandLine line = parser.parse(options, args);
-            k = line.getOptionValue("k");
-            dico = line.getOptionValue("dico");
-            pages = line.getArgs();
-        } catch (ParseException e) {
-            System.err.println(e.getMessage());
-            System.out.println("Usage : bazar -k [K] -d [DICO] [PAGE]...");
-            System.exit(1);
-        }
-
-        try {
-            bazar = new Bazar(Integer.parseInt(k), dico, pages);
-            bazar.resolve();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
         }
     }
 }

@@ -1,0 +1,25 @@
+Mots :
+
+1. algorithme; 2. complexite; 3. couplage; 4. indice ; 5. pour ;  6. alors; 7 faire ; 8. maximum ;
+9. minimum ; 10. recherche ; 11. identifie ; 12. boucle ; 13. auteur ; 14. reference ; 15. article; 16. efficace.
+
+k=4
+
+
+Mots par page et selon chapitre :
+
+P1. 1, 10, 11, 14, 15, 16
+P3. 1, 5, 6, 9, 10, 14, 16
+P5. 1, 8, 10, 11, 15
+Mots propres : 11, 14
+
+P2. 2, 3, 5, 8, 10, 12
+P7. 3, 4, 5, 8, 12
+P10. 1, 2, 3, 5, 10, 12
+Mots propres : 2
+
+P4. 4, 7, 8, 9, 13, 15
+P6. 7, 8, 13, 15, 16
+P8. 4, 7, 8, 9, 12
+P9. 3, 4, 7, 8, 9
+Mots propres : 7, 13

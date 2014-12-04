@@ -4,10 +4,7 @@ import bazar.Page;
 import tree.RedBlackTree;
 import tree.Tree;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StreamTokenizer;
+import java.io.*;
 
 /**
  * Classe implémentant le Parser
@@ -18,13 +15,13 @@ public class Parser {
 
     /**
      * Méthode qui parse un fichier pour en faire un dictionnaire
-     * @param fileName le fichier servant de dictionnaire
+     * @param file le fichier servant de dictionnaire
      * @return un arbre représentant un dictionnaire
      * @throws IOException erreur d'entrée/sortie
      */
-    public static Tree<String> parseDico(String fileName) throws IOException {
+    public static Tree<String> parseDico(File file) throws IOException {
         Tree<String> t = new RedBlackTree<String>();
-        StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
+        StreamTokenizer streamTokenizer = new StreamTokenizer(new FileReader(file));
         streamTokenizer.whitespaceChars(' ', '/');
         while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             if (streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
@@ -36,14 +33,14 @@ public class Parser {
 
     /**
      * Méthode qui parse un fichier pour en faire une page
-     * @param fileName le fichier servant de page
+     * @param file le fichier servant de page
      * @return une page
      * @throws IOException erreur d'entrée/sortie
      */
-    public static Page parsePage(String fileName) throws IOException {
+    public static Page parsePage(File file) throws IOException {
         Page p;
         Tree<String> words;
-        StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
+        StreamTokenizer streamTokenizer = new StreamTokenizer(new FileReader(file));
         streamTokenizer.whitespaceChars(' ', '/');
         if (streamTokenizer.nextToken() != StreamTokenizer.TT_NUMBER) {
             throw new IOException();

@@ -98,6 +98,10 @@ public class Bazar {
             }
         }
 
+        System.out.println("k = "+k);
+        System.out.println("dico = "+dico);
+        System.out.println();
+
         for (Chapter c : chapters) {
             System.out.println(c);
         }

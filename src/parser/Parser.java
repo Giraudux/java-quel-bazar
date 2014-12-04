@@ -26,21 +26,6 @@ public class Parser {
         Tree<String> t = new RedBlackTree<String>();
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
         streamTokenizer.whitespaceChars(' ', '/');
-        /*streamTokenizer.quoteChar('.');
-        streamTokenizer.quoteChar(',');
-        streamTokenizer.quoteChar(';');
-        streamTokenizer.quoteChar(':');
-        streamTokenizer.quoteChar('!');
-        streamTokenizer.quoteChar('?');
-        streamTokenizer.quoteChar('"');
-        streamTokenizer.quoteChar('(');
-        streamTokenizer.quoteChar(')');
-        streamTokenizer.quoteChar('[');
-        streamTokenizer.quoteChar(']');
-        streamTokenizer.quoteChar('{');
-        streamTokenizer.quoteChar('}');
-        streamTokenizer.quoteChar('«');
-        streamTokenizer.quoteChar('»');*/
         while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             if (streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
                 t.add(streamTokenizer.sval.toLowerCase());
@@ -60,21 +45,6 @@ public class Parser {
         Tree<String> words;
         StreamTokenizer streamTokenizer = new StreamTokenizer(new BufferedReader(new FileReader(fileName)));
         streamTokenizer.whitespaceChars(' ', '/');
-        /*streamTokenizer.quoteChar('.');
-        streamTokenizer.quoteChar(',');
-        streamTokenizer.quoteChar(';');
-        streamTokenizer.quoteChar(':');
-        streamTokenizer.quoteChar('!');
-        streamTokenizer.quoteChar('?');
-        streamTokenizer.quoteChar('"');
-        streamTokenizer.quoteChar('(');
-        streamTokenizer.quoteChar(')');
-        streamTokenizer.quoteChar('[');
-        streamTokenizer.quoteChar(']');
-        streamTokenizer.quoteChar('{');
-        streamTokenizer.quoteChar('}');
-        streamTokenizer.quoteChar('«');
-        streamTokenizer.quoteChar('»');*/
         if (streamTokenizer.nextToken() != StreamTokenizer.TT_NUMBER) {
             throw new IOException();
         }

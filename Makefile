@@ -2,7 +2,8 @@ all: jar doc
 
 jar:
 	-mkdir ./bin
-	javac -d ./bin ./src/bazar/* ./src/org/apache/commons/cli/* ./src/parser/* ./src/tree/*
+	find ./src -name "*.java" > source_list
+	javac -d ./bin @source_list
 	cd ./bin && jar cfm ../Bazar.jar ../src/MANIFEST.MF *
 
 doc:
@@ -15,3 +16,4 @@ test: jar
 clean:
 	-rm -r ./bin
 	-rm Bazar.jar
+	-rm source_list

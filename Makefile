@@ -11,7 +11,14 @@ doc:
 	javadoc -public -splitindex -author -version -charset UTF-8 -d ./doc/javadoc bazar parser tree -sourcepath ./src
 
 test: jar
+	@echo "########"
+	@echo "# jeu0 #"
+	@echo "########"
 	java -jar Bazar.jar -k 4 -dico ./test/jeu0/dictionnaire ./test/jeu0/page_??
+	@echo "########"
+	@echo "# jeu1 #"
+	@echo "########"
+	java -jar Bazar.jar -k 4 -dico ./test/jeu1/dico.txt ./test/jeu1/P?*.txt
 
 clean:
 	-rm -r ./bin

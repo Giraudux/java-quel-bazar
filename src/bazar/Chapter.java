@@ -30,10 +30,12 @@ public class Chapter implements Comparable<Chapter> {
      * Constructeur de la classe
      * @param id le numéro du chapitre
      */
-    public Chapter(Integer id) {
+    public Chapter(Integer id, Page p) {
         __id = id;
         __keyWords = new RedBlackTree<String>();
+        __keyWords.addAll(p.getWords());
         __pages = new RedBlackTree<Page>();
+        __pages.add(p);
     }
 
     /**
@@ -64,17 +66,6 @@ public class Chapter implements Comparable<Chapter> {
     }
 
     /**
-     * Ajoute une page au chapitre
-     * @param p la page
-     * @return true
-     */
-    boolean addPage(Page p) {
-        __pages.add(p);
-        __keyWords.addAll(p.getWords());
-        return true;
-    }
-
-    /**
      * Ajoute une page au chapitre si elle contient au moins k mot du dictionnaire
      * @param p la page
      * @param k la constante
@@ -83,7 +74,8 @@ public class Chapter implements Comparable<Chapter> {
     boolean addPage(Page p, int k) {
         for (Page pp : __pages) {
             if (pp.containsWords(p, k)) {
-                addPage(p);
+                __pages.add(p);
+                __keyWords.addAll(p.getWords());
                 return true;
             }
         }

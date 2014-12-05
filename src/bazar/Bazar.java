@@ -82,10 +82,8 @@ public class Bazar {
                 }
             }
             if (!added) {//sinon on crée un nouveau chapitre
-                Chapter c = new Chapter(i);
+                chapters.add(new Chapter(i, p));
                 i++;
-                c.addPage(p);//on ajoute la page au chapitre
-                chapters.add(c);
             }
         }
 

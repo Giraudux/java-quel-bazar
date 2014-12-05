@@ -63,7 +63,7 @@ public class Bazar {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            System.err.println("Usage : java -jar Bazar.jar -k [K] -d [DICO] [PAGE]...");
+            System.err.println("Usage : java -jar Bazar.jar -k [K] -dico [DICTIONARY] PAGE...");
             System.exit(1);
         }
 
@@ -99,7 +99,7 @@ public class Bazar {
         }
 
         System.out.println("k = "+k);
-        System.out.println("dico = "+dico);
+        System.out.println("Dictionary = "+dico);
         System.out.println();
 
         for (Chapter c : chapters) {

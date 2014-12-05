@@ -76,4 +76,11 @@ public class Page implements Comparable<Page> {
     public int compareTo(Page p) {
         return __id.compareTo(p.getId());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("Page ").append(__id).append(" = ").append(__words.toString());
+        return s.toString();
+    }
 }

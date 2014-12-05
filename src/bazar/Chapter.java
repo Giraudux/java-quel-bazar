@@ -108,15 +108,11 @@ public class Chapter implements Comparable<Chapter> {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("Chapter ").append(__id).append(":\npages=");
+        s.append("Chapter ").append(__id).append(" =\n");
         for (Page p : __pages) {
-            s.append(" ").append(p.getId());
+            s.append(p.toString()).append("\n");
         }
-        s.append("\nkeywords=");
-        for (String w : __keyWords) {
-            s.append(" ").append(w);
-        }
-        s.append("\n");
+        s.append("Keywords = ").append(__keyWords.toString()).append("\n");
         return s.toString();
     }
 }

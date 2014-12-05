@@ -195,11 +195,6 @@ public class RedBlackTree<K extends Comparable<K>> implements Tree<K> {
     @Override
     public boolean retainAll(Collection<?> c) {
         boolean r = false;
-        /*for (Object x : this) {
-            if (!contains(x)) {
-                r = remove(x) || r;
-            }
-        }*/
         Iterator<K> it = iterator();
         while (it.hasNext()) {
             K k = it.next();
